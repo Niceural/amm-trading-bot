@@ -76,8 +76,20 @@ impl Arbitrage {
         // if can still be relaxed => negative cycle
         for &Pool { token_0, token_1, pool_id, log_price, liquidity, fee } in &self.adjacency_list {
             if dists[token_0] + log_price < dists[token_1] {
-                let mut current
+                let mut cycle = Vec::new();
+                cycle.push((token_1, pool_id));
+                cycle.push((token_0, pool_id));
 
+                let mut current = token_0;
+                loop {
+                    match prev[current] {
+                        Some(node) => {
+                            cycle.push(node);
+                            current = prev[node.0];
+                        },
+                        None => break,
+                    }
+                }
             }
         }
 

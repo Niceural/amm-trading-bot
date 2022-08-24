@@ -1,9 +1,3 @@
-use ethers::types::{Address, H160};
-
-pub mod univ3;
-
-const LOG: bool = true;
-
 pub fn read_args(args: Vec<String>) -> (u32, String) {
     let network_name = &args[1];
 
