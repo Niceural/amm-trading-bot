@@ -85,7 +85,7 @@ impl Arbitrage {
                     match prev[current] {
                         Some(node) => {
                             cycle.push(node);
-                            current = prev[node.0];
+                            // current = prev[node.0];
                         },
                         None => break,
                     }

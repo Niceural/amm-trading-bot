@@ -1,7 +1,9 @@
-use ethers::abi::Address;
-use ethers::middleware::SignerMiddleware;
-use ethers::providers::{Http, Provider};
-use ethers::signers::LocalWallet;
+use ethers::{
+    middleware::SignerMiddleware,
+    providers::{Http, Provider},
+    signers::LocalWallet,
+    // types::Address,
+};
 use std::convert::TryFrom;
 use dotenv::dotenv;
 use std::env;
@@ -12,7 +14,6 @@ mod univ3; use univ3::*;
 
 pub struct Bot {
     chain_id: u32,
-    // wallet: LocalWallet,
     provider: SignerMiddleware<Provider<Http>, LocalWallet>,
     tokens: Vec<Token>,
     pool_immutables: Vec<PoolImmutables>,
@@ -25,21 +26,20 @@ impl Bot {
         secret_key: String,
         provider_url: String,
     ) -> Self {
-        println!("\tCreating provider...");
-        let wallet: LocalWallet = secret_key.parse().expect("Failed to create local wallet");
-        let provider_service = Provider::<Http>::try_from(provider_url).expect("Failed to get provider from url");
+        println!("Creating provider...");
+        let wallet: LocalWallet = secret_key.parse().expect("Invalid private key");
+        let provider_service = Provider::<Http>::try_from(provider_url).expect("Invalid provider url");
         let provider: SignerMiddleware<Provider<Http>, LocalWallet> = SignerMiddleware::new(provider_service, wallet);
 
-        println!("\tGetting tokens and pool immutables...");
+        println!("Getting tokens and pool immutables...");
         let tokens = Token::get_tokens(chain_id);
-        let pool_immutables = PoolImmutables::get_pool_immutables(chain_id);
+        let pool_immutables = PoolImmutables::get_pool_immutables(chain_id, provider);
 
-        println!("\tGet arbitrage instance...");
+        println!("Getting arbitrage instance...");
         let arbitrage = Arbitrage::new(pool_immutables.len(), tokens.len());
 
         Self {
             chain_id,
-            // wallet,
             provider,
             tokens,
             pool_immutables,
@@ -69,5 +69,5 @@ async fn main() {
     // create bot
     println!("Creating Bot instance...");
     let bot: Bot = Bot::new(chain_id, secret_key, provider_url).await;
-    loop { bot.run(); }
+    // loop { bot.run().await; }
 }
