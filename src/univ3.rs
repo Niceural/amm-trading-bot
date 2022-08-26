@@ -1,10 +1,20 @@
-use ethers::types::Address;
+use ethers::{
+    middleware::SignerMiddleware,
+    providers::{Http, Provider},
+    signers::LocalWallet,
+    types::{ Address, },
+    contract::Contract,
+    abi::Abi,
+};
 use std::{
     path::Path,
     fs::{ File, },
     io::{Write, ErrorKind},
+    collections::HashMap,
 };
 use serde::{Deserialize, Serialize};
+
+use crate::utils::*;
 
 //------------------------------------- Token
 
@@ -21,15 +31,18 @@ pub struct Token {
 
 impl Token {
     pub fn get_tokens(chain_id: u32) -> Vec<Token> {
-        let file_storing_tokens = format!("src/config/{}/tokens.json", &chain_id);
+        let file_storing_tokens = format!("config/{}/tokens.json", &chain_id);
+
         // create the file if file is not found
         let file = match File::open(&file_storing_tokens) {
             Ok(f) => f,
             Err(e) => match e.kind() {
                 ErrorKind::NotFound => {
+                    panic!("token file not found");
+                    /*
                     println!("{} not found, creating from all tokens", &file_storing_tokens );
                     // reading all tokens from raw tokens file
-                    let path_string = "src/config/raw/allTokens.json".to_string();
+                    let path_string = "config/raw/allTokens.json".to_string();
                     let path = Path::new(&path_string);
                     let error = format!("Failed to open file {}", &path_string);
                     let file = File::open(path).expect(&error);
@@ -48,9 +61,10 @@ impl Token {
                     let serialized_tokens = serde_json::to_string(&tokens).expect("Failed to serialize tokens");
                     let error = format!("Failed to create file {}", &file_storing_tokens );
                     let mut tokens_file = File::create(&file_storing_tokens ).expect(&error);
-                    let error = format!("Failed to write to file {}", &file_storing_tokens );
+                    let error = format!("Failed to write tokens to file {}", &file_storing_tokens );
                     tokens_file.write_all(&serialized_tokens.as_bytes()).expect(&error);
-                    tokens_file
+                    return tokens;
+                    */
                 },
                 _ => panic!("Failed to open tokens file"),
             },
@@ -62,10 +76,10 @@ impl Token {
 
 //------------------------------------- PoolImmutable
 
-#[derive(Debug, Deserialize, Default)]
+#[derive(Debug, Deserialize, Serialize, Default)]
 #[serde(rename_all = "camelCase", default)]
 pub struct PoolImmutables {
-    pub addr: Address,
+    pub address: Address,
     pub pool_id: usize,
     pub token_0_id: usize,
     pub token_1_id: usize,
@@ -75,15 +89,111 @@ pub struct PoolImmutables {
 }
 
 impl PoolImmutables {
-    pub fn get_pool_immutables(chain_id: u32) -> Vec<PoolImmutables> {
-        let file_storing_pools = format!("src/config/{}/pools.json", &chain_id);
+    pub fn new(
+        address: Address,
+        pool_id: usize,
+        token_0_id: usize,
+        token_1_id: usize,
+        fee: f32,
+        tick_spacing: f32,
+        max_liquidity_per_tick: f32
+    ) -> Self {
+        Self {
+            address,
+            pool_id,
+            token_0_id,
+            token_1_id,
+            fee,
+            tick_spacing,
+            max_liquidity_per_tick,
+        }
+    }
+
+    pub async fn get_pool_immutables(
+        chain_id: u32,
+        provider: &SignerMiddleware<Provider<Http>, LocalWallet>,
+    ) -> Vec<PoolImmutables> {
+        let file_storing_pools = format!("config/{}/pools.json", &chain_id);
+
         // create the file if file is not found
         let file = match File::open(&file_storing_pools) {
             Ok(f) => f,
             Err(e) => match e.kind() {
                 ErrorKind::NotFound => {
-                    println!("{} not found, creating from Factory.getPool()", &file_storing_pools);
-                    pools_file
+                    println!("{} not found, creating from UniswapV3Factory.getPool()", &file_storing_pools);
+
+                    // get tokens
+                    let path = format!("config/{}/tokens.json", &chain_id);
+                    let error = format!("Failed to open file: {}", &path);
+                    let path = Path::new(&path);
+                    let tokens_file = File::open(path).expect(&error);
+                    let tokens: Vec<Token> = serde_json::from_reader(tokens_file).expect("Failed to read Tokens from json");
+
+                    // get factory contract
+                    let factory_addr = univ3_factory_addr(chain_id);
+                    let factory_abi = i_univ3_factory_abi();
+                    let factory_abi: Abi = serde_json::from_str(&factory_abi).expect("Failed to parse string to Abi");
+                    let factory = Contract::new(factory_addr, factory_abi, provider);
+
+                    // get pool abi
+                    let pool_abi = i_univ3_pool_abi();
+                    let pool_abi: Abi = serde_json::from_str(&pool_abi).expect("Failed to parse string to Abi");
+
+                    // fetch pool address
+                    let mut pools: Vec<PoolImmutables> = Vec::new();
+                    let mut pool_id: usize = 0;
+                    let mut is_pool_fetched: HashMap<Address, bool> = HashMap::new();
+                    let fees: Vec<u32> = vec![500, 3000, 10000];
+                    for i in 0..tokens.len()-1 {
+                    for j in i..tokens.len()-1 {
+                    for fee in &fees {
+                        let pool_addr: Address = factory
+                            .method::<(Address, Address, u32), Address>("getPool", (tokens[i].address, tokens[j].address, fee.clone()))
+                            .expect("`UniswapV3Factory.getPool()` method not found in ABI")
+                            .call()
+                            .await
+                            .expect("`UniswapV3Factory.getPool()` asynchronous call failed");
+                        // if pool exists and has not already been fetched
+                        if pool_addr != Address::zero() && !is_pool_fetched.contains_key(&pool_addr) {
+                            // add to hash map
+                            is_pool_fetched.insert(pool_addr.clone(), true);
+                            // get pool contract
+                            let pool = Contract::new(pool_addr, pool_abi.clone(), &provider);
+                            // get pool immutables
+                            // find which is token 0 and is which token 1
+                            let token0_addr: Address = pool
+                                .method::<(), Address>("token0", ())
+                                .expect("`Pool.token0()` method not found in ABI")
+                                .call()
+                                .await
+                                .expect("`Pool.token0()` asynchronous call failed");
+                            if token0_addr == tokens[i].address {
+                                pools.push(PoolImmutables::new(
+                                    pool_addr,
+                                    pool_id,
+                                    tokens[i].token_id,
+                                    tokens[j].token_id,
+                                    0., 0., 0.
+                                ));
+                            } else {
+                                pools.push(PoolImmutables::new(
+                                    pool_addr,
+                                    pool_id,
+                                    tokens[j].token_id,
+                                    tokens[i].token_id,
+                                    0., 0., 0.
+                                ));
+                            }
+                            pool_id += 1;
+                        }
+                    }}}
+                    // save to file
+                    let serialized_pools = serde_json::to_string(&pools).expect("Failed to serialize pools");
+                    let error = format!("Failed to create file {}", &file_storing_pools);
+                    let mut pools_file = File::create(&file_storing_pools).expect(&error);
+                    let error = format!("Failed to write pools to file {}", &file_storing_pools);
+                    pools_file.write_all(&serialized_pools.as_bytes()).expect(&error);
+                    return pools;
                 },
                 _ => panic!("Failed to open pools file"),
             },

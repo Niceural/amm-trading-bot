@@ -1,0 +1,110 @@
+[
+  {
+    "address": "0xf4410c58d13820d5eba1a563e592ed015c4e3c80",
+    "poolId": 0,
+    "token0Id": 0,
+    "token1Id": 42,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x0d47fedc9f84ceb8c95719bb6b684b50645cf2f0",
+    "poolId": 1,
+    "token0Id": 0,
+    "token1Id": 161,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x1dee9d7b7cfd8febf38982bc8ab715ec8c3050d1",
+    "poolId": 2,
+    "token0Id": 0,
+    "token1Id": 162,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x3bb14627714a2b64b709e16c96d5e3ad8448ab56",
+    "poolId": 3,
+    "token0Id": 0,
+    "token1Id": 164,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0xd35efae4097d005720608eaf37e42a5936c94b44",
+    "poolId": 4,
+    "token0Id": 0,
+    "token1Id": 165,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x0cf980d2ca69c7f29537dc8fd008dafef56f6fbc",
+    "poolId": 5,
+    "token0Id": 1,
+    "token1Id": 31,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x14243ea6bb3d64c8d54a1f47b077e23394d6528a",
+    "poolId": 6,
+    "token0Id": 81,
+    "token1Id": 1,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x59c38b6775ded821f010dbd30ecabdcf84e04756",
+    "poolId": 7,
+    "token0Id": 159,
+    "token1Id": 1,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0xdceaf5d0e5e0db9596a47c0c4120654e80b1d706",
+    "poolId": 8,
+    "token0Id": 1,
+    "token1Id": 161,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x4d1ad4a9e61bc0e5529d64f38199ccfca56f5a42",
+    "poolId": 9,
+    "token0Id": 1,
+    "token1Id": 162,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x98e45940d0c76898f5659b8fc78895f35a39eb43",
+    "poolId": 10,
+    "token0Id": 164,
+    "token1Id": 1,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x5ab53ee1d50eef2c1dd3d5402789cd27bb52c1bb",
+    "poolId": 11,
+    "token0Id": 1,
+    "token1Id": 165,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  }
+]

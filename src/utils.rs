@@ -1,12 +1,13 @@
 use std::{
-    path::Path,
-    fs::{ File, read_to_string, }, io::Write,
+    fs::read_to_string,
 };
-use crate::{univ3::*, };
 use ethers::{
     types::Address,
 };
 
+/// Reads CLI arguments and returns the parameters.
+/// CLI argument is the network name.
+/// Returns chain id and RPC provider url.
 pub fn read_args(args: Vec<String>) -> (u32, String) {
     let network_name = &args[1];
     match network_name.as_str() {
@@ -21,8 +22,9 @@ pub fn read_args(args: Vec<String>) -> (u32, String) {
 
 //------------------------------------- ABIs
 
+/// Returns the ABI of [IUniswapV3Factory](https://github.com/Uniswap/v3-core/blob/412d9b236a1e75a98568d49b1aeb21e3a1430544/contracts/interfaces/IUniswapV3Factory.sol).
 pub fn i_univ3_factory_abi() -> String {
-    let path = "src/config/univ3/IUniswapV3FactoryABI.json".to_string();
+    let path = "config/univ3/IUniswapV3FactoryABI.json".to_string();
     let error = format!("File not found: {}", &path);
     read_to_string(&path)
         .expect(&error)
@@ -30,8 +32,9 @@ pub fn i_univ3_factory_abi() -> String {
         .expect("Failed to parse ABI")
 }
 
+/// Returns the ABI of [IUniswapV3Pool](https://github.com/Uniswap/v3-core/blob/412d9b236a1e75a98568d49b1aeb21e3a1430544/contracts/interfaces/IUniswapV3Pool.sol).
 pub fn i_univ3_pool_abi() -> String {
-    let path = "src/config/univ3/IUniswapV3PoolABI.json".to_string();
+    let path = "config/univ3/IUniswapV3PoolABI.json".to_string();
     let error = format!("File not found: {}", &path);
     read_to_string(&path)
         .expect(&error)
@@ -41,6 +44,8 @@ pub fn i_univ3_pool_abi() -> String {
 
 //------------------------------------- Contract addresses
 
+/// Returns the address of the deployed instance of `[UniswapV3Factory](https://docs.uniswap.org/protocol/reference/core/UniswapV3Factory)` on network with chain id `chain_id`.
+/// Panics if `chain_id` is unknown.
 pub fn univ3_factory_addr(chain_id: u32) -> Address {
     match chain_id {
         1 => "0x1F98431c8aD98523631AE4a59f267346ea31F984"

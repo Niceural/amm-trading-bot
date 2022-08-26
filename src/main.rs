@@ -33,7 +33,7 @@ impl Bot {
 
         println!("Getting tokens and pool immutables...");
         let tokens = Token::get_tokens(chain_id);
-        let pool_immutables = PoolImmutables::get_pool_immutables(chain_id, provider);
+        let pool_immutables = PoolImmutables::get_pool_immutables(chain_id, &provider).await;
 
         println!("Getting arbitrage instance...");
         let arbitrage = Arbitrage::new(pool_immutables.len(), tokens.len());
@@ -47,9 +47,13 @@ impl Bot {
         }
     }
 
-    pub async fn run(&self) {
+    pub async fn run(&mut self) {
         // clear arbitrage
+        self.arbitrage.clear();
         // get token prices and add them to arbitrage
+        // for pool in self.pool_immutables {
+            
+        // }
         // execute arbitrage
         // prepare arguments for on chain call
         // call on chain contract

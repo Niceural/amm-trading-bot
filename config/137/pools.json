@@ -1,0 +1,632 @@
+[
+  {
+    "address": "0x45dda9cb7c25131df268515131f647d726f50608",
+    "poolId": 0,
+    "token0Id": 1,
+    "token1Id": 0,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x0e44ceb592acfc5d3f09d996302eb4c499ff8c10",
+    "poolId": 1,
+    "token0Id": 1,
+    "token1Id": 0,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0xbd934a7778771a7e2d9bf80596002a214d8c9304",
+    "poolId": 2,
+    "token0Id": 1,
+    "token1Id": 0,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x86f1d8390222a3691c28938ec7404a1661e618e0",
+    "poolId": 3,
+    "token0Id": 2,
+    "token1Id": 0,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x167384319b41f7094e62f7506409eb38079abff8",
+    "poolId": 4,
+    "token0Id": 2,
+    "token1Id": 0,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x9f2b55f290fb1dd0c80d685284dbef91ebeea480",
+    "poolId": 5,
+    "token0Id": 2,
+    "token1Id": 0,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x50eaedb835021e4a108b7290636d62e9765cc6d7",
+    "poolId": 6,
+    "token0Id": 3,
+    "token1Id": 0,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0xfe343675878100b344802a6763fd373fdeed07a4",
+    "poolId": 7,
+    "token0Id": 3,
+    "token1Id": 0,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x4f28eef4dde2bfa0bdb95a7efe586c3654e6cf07",
+    "poolId": 8,
+    "token0Id": 3,
+    "token1Id": 0,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0xbb98b3d2b18aef63a3178023a920971cf5f29be4",
+    "poolId": 9,
+    "token0Id": 0,
+    "token1Id": 4,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x4ccd010148379ea531d6c587cfdd60180196f9b1",
+    "poolId": 10,
+    "token0Id": 0,
+    "token1Id": 4,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0xc21b964af2b0254580d44981d624335f2b7c6fb6",
+    "poolId": 11,
+    "token0Id": 0,
+    "token1Id": 4,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x67a9fe12fa6082d9d0203c84c6c56d3c4b269f28",
+    "poolId": 12,
+    "token0Id": 0,
+    "token1Id": 5,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x6bad0f9a89ca403bb91d253d385cec1a2b6eca97",
+    "poolId": 13,
+    "token0Id": 0,
+    "token1Id": 5,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x3f82d2fe81904f0e74146a14904e5355ef476049",
+    "poolId": 14,
+    "token0Id": 0,
+    "token1Id": 5,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x313c37fbd500e0e2fc95f5b139422af71a1d41f2",
+    "poolId": 15,
+    "token0Id": 0,
+    "token1Id": 7,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x239f4cbeeaffc4d6a94d0c1363d5f228a9c002bc",
+    "poolId": 16,
+    "token0Id": 0,
+    "token1Id": 7,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x6d2862635e40c195b58f69cb699ece808a5cc77c",
+    "poolId": 17,
+    "token0Id": 0,
+    "token1Id": 7,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0xa374094527e1673a86de625aa59517c5de346d32",
+    "poolId": 18,
+    "token0Id": 2,
+    "token1Id": 1,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x88f3c15523544835ff6c738ddb30995339ad57d6",
+    "poolId": 19,
+    "token0Id": 2,
+    "token1Id": 1,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x67e708986a809acefde16f2417fa5701241e3935",
+    "poolId": 20,
+    "token0Id": 2,
+    "token1Id": 1,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0xeef1a9507b3d505f0062f2be9453981255b503c8",
+    "poolId": 21,
+    "token0Id": 3,
+    "token1Id": 1,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x847b64f9d3a95e977d157866447a5c0a5dfa0ee5",
+    "poolId": 22,
+    "token0Id": 3,
+    "token1Id": 1,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x4f78a9b3015704c1152327e14963f54e4a63c28a",
+    "poolId": 23,
+    "token0Id": 3,
+    "token1Id": 1,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x3f5228d0e7d75467366be7de2c31d0d098ba2c23",
+    "poolId": 24,
+    "token0Id": 1,
+    "token1Id": 4,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x24555b1e26407b8b56621da41f175c5e2b80f1b8",
+    "poolId": 25,
+    "token0Id": 1,
+    "token1Id": 4,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x7109c674e52b14fcfb8a04ffe254f454f9c61c18",
+    "poolId": 26,
+    "token0Id": 1,
+    "token1Id": 4,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x5f69c2ec01c22843f8273838d570243fd1963014",
+    "poolId": 27,
+    "token0Id": 1,
+    "token1Id": 5,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x257d365f7870742c87bb3a8a53a609979908799a",
+    "poolId": 28,
+    "token0Id": 1,
+    "token1Id": 5,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0xfd0693f146eae257586e0dc63205f090e31a3584",
+    "poolId": 29,
+    "token0Id": 1,
+    "token1Id": 5,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x52f64e728f655fdb3992f5b3b4bfff3e45f525eb",
+    "poolId": 30,
+    "token0Id": 1,
+    "token1Id": 6,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0xf7abb7dee889da4300a82c26f8c0c725c64bd493",
+    "poolId": 31,
+    "token0Id": 1,
+    "token1Id": 6,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x7f567ce133b0b69458fc318af06eee27642865be",
+    "poolId": 32,
+    "token0Id": 1,
+    "token1Id": 7,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0xdb0f14d1f18d3b70ad3a55f8af31c435bdd1bfba",
+    "poolId": 33,
+    "token0Id": 1,
+    "token1Id": 7,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x1afc32344650013fc42e702f66a11ea67403ef4f",
+    "poolId": 34,
+    "token0Id": 1,
+    "token1Id": 7,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0xbeaf7156ba07c3df8fac42e90188c5a752470db7",
+    "poolId": 35,
+    "token0Id": 1,
+    "token1Id": 8,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0xfea15e0d29bb529999bd2eeb488847024fe88c7b",
+    "poolId": 36,
+    "token0Id": 1,
+    "token1Id": 8,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x6b75f2189f0e11c52e814e09e280eb1a9a8a094a",
+    "poolId": 37,
+    "token0Id": 2,
+    "token1Id": 3,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x642f28a89fa9d0fa30e664f71804bfdd7341d21f",
+    "poolId": 38,
+    "token0Id": 2,
+    "token1Id": 3,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x56ff3a6fa5476c5fd28af7616d8bb35e50a47a81",
+    "poolId": 39,
+    "token0Id": 2,
+    "token1Id": 3,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x9b08288c3be4f62bbf8d1c20ac9c5e6f9467d8b7",
+    "poolId": 40,
+    "token0Id": 2,
+    "token1Id": 4,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x781067ef296e5c4a4203f81c593274824b7c185d",
+    "poolId": 41,
+    "token0Id": 2,
+    "token1Id": 4,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x9a72fc3fb9e99087d2eae500355e7902c763f9b3",
+    "poolId": 42,
+    "token0Id": 2,
+    "token1Id": 4,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x0f663c16dd7c65cf87edb9229464ca77aeea536b",
+    "poolId": 43,
+    "token0Id": 2,
+    "token1Id": 5,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0xfe530931da161232ec76a7c3bea7d36cf3811a0d",
+    "poolId": 44,
+    "token0Id": 2,
+    "token1Id": 5,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x58359563b3f4854428b1b98e91a42471e6d20b8e",
+    "poolId": 45,
+    "token0Id": 2,
+    "token1Id": 5,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x59adb237ff4c7c5844ef8829f7fe85775a79c750",
+    "poolId": 46,
+    "token0Id": 2,
+    "token1Id": 6,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x2c92547ea81d9855e55ca7ac66956bfccbaf11d2",
+    "poolId": 47,
+    "token0Id": 2,
+    "token1Id": 6,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x15b024d28fa789d96f2cca63257cc9b07623f234",
+    "poolId": 48,
+    "token0Id": 2,
+    "token1Id": 7,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0xf7024ff3cd59e1942b6de1770b296162fe97e6a1",
+    "poolId": 49,
+    "token0Id": 2,
+    "token1Id": 7,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x5c1aea576c22929e1b853d60b598a592e2756a12",
+    "poolId": 50,
+    "token0Id": 2,
+    "token1Id": 8,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0xa1cfb393607d1a6888d273b762832ed14c8b56b1",
+    "poolId": 51,
+    "token0Id": 3,
+    "token1Id": 4,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x33016df701b323c33cc027146c6a9e0997b2a923",
+    "poolId": 52,
+    "token0Id": 3,
+    "token1Id": 4,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x5e575a7050ca806248e8f4341601847fde52d9ba",
+    "poolId": 53,
+    "token0Id": 3,
+    "token1Id": 5,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0xd0beb9570bc3d2af7fa461dfd3c75cc3a34f95e2",
+    "poolId": 54,
+    "token0Id": 3,
+    "token1Id": 5,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0xf147e3760fe6ed404bbb5eade7632a8ab2888c2e",
+    "poolId": 55,
+    "token0Id": 3,
+    "token1Id": 5,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x293e896eeab9e7805aec3b51eb7a3cf2970208bb",
+    "poolId": 56,
+    "token0Id": 3,
+    "token1Id": 7,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x42f0530351471dab7ec968476d19bd36af9ec52d",
+    "poolId": 57,
+    "token0Id": 5,
+    "token1Id": 4,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x88aaeed1fcfca2eda30749afa9ad45a75c80e292",
+    "poolId": 58,
+    "token0Id": 5,
+    "token1Id": 4,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x9a4270d9da562780a6bb5d01dcb527eb8ec86da4",
+    "poolId": 59,
+    "token0Id": 5,
+    "token1Id": 4,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0xd71c3af20f10bbfba2747e6a866cb0382162089e",
+    "poolId": 60,
+    "token0Id": 6,
+    "token1Id": 4,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0xb3ac9e756688e0490ff061b50fdf444819ef18d9",
+    "poolId": 61,
+    "token0Id": 7,
+    "token1Id": 4,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x7b6acc9954a2128bf046aff9486bb2e53274fc85",
+    "poolId": 62,
+    "token0Id": 7,
+    "token1Id": 4,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0xeb1c641d49da59b9a5c7c30c373b31fe6b0ed3a7",
+    "poolId": 63,
+    "token0Id": 8,
+    "token1Id": 4,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x6a03929af4e25d7b0ba08bb1c8d158bd65777129",
+    "poolId": 64,
+    "token0Id": 8,
+    "token1Id": 4,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x303ecd8dbed50cbc952137994e14dc72d86e9a44",
+    "poolId": 65,
+    "token0Id": 5,
+    "token1Id": 6,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x1c81c5e77d3a24b3365833be9cf443ff9373f018",
+    "poolId": 66,
+    "token0Id": 5,
+    "token1Id": 7,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0xb1647f4445a5d1f412f411008c9090b8cc785c08",
+    "poolId": 67,
+    "token0Id": 5,
+    "token1Id": 7,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0x3988c7da320e785de5447dd54b95b8187edb312c",
+    "poolId": 68,
+    "token0Id": 8,
+    "token1Id": 5,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  },
+  {
+    "address": "0xf5d085c669f63d9983dc57b629b235793d009b0e",
+    "poolId": 69,
+    "token0Id": 8,
+    "token1Id": 7,
+    "fee": 0.0,
+    "tickSpacing": 0.0,
+    "maxLiquidityPerTick": 0.0
+  }
+]

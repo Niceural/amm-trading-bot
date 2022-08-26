@@ -1,0 +1,1 @@
+This folder contains the data for the Polygon chain. The tokens data is obtained by copy/paste from [uniswap info](https://info.uniswap.org/#/polygon/tokens). The pools data is obtained by calling `UniswapV3Factory.getPool()`, passing the tokens as arguments.
