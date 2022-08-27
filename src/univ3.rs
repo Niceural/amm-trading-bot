@@ -2,7 +2,7 @@ use ethers::{
     middleware::SignerMiddleware,
     providers::{Http, Provider},
     signers::LocalWallet,
-    types::{ Address, },
+    types::{ Address, U256, },
     contract::Contract,
     abi::Abi,
 };
@@ -38,7 +38,7 @@ impl Token {
             Ok(f) => f,
             Err(e) => match e.kind() {
                 ErrorKind::NotFound => {
-                    panic!("token file not found");
+                    panic!("Failed to open file: {}", &file_storing_tokens);
                     /*
                     println!("{} not found, creating from all tokens", &file_storing_tokens );
                     // reading all tokens from raw tokens file
@@ -66,7 +66,7 @@ impl Token {
                     return tokens;
                     */
                 },
-                _ => panic!("Failed to open tokens file"),
+                _ => panic!("Failed to open file: {}", &file_storing_tokens),
             },
         };
         let tokens: Vec<Token> = serde_json::from_reader(file).expect("Failed to extract tokens from json");
@@ -74,7 +74,7 @@ impl Token {
     }
 }
 
-//------------------------------------- PoolImmutable
+//------------------------------------- PoolImmutables
 
 #[derive(Debug, Deserialize, Serialize, Default)]
 #[serde(rename_all = "camelCase", default)]
@@ -131,13 +131,11 @@ impl PoolImmutables {
 
                     // get factory contract
                     let factory_addr = univ3_factory_addr(chain_id);
-                    let factory_abi = i_univ3_factory_abi();
-                    let factory_abi: Abi = serde_json::from_str(&factory_abi).expect("Failed to parse string to Abi");
+                    let factory_abi: Abi = i_univ3_factory_abi();
                     let factory = Contract::new(factory_addr, factory_abi, provider);
 
                     // get pool abi
-                    let pool_abi = i_univ3_pool_abi();
-                    let pool_abi: Abi = serde_json::from_str(&pool_abi).expect("Failed to parse string to Abi");
+                    let pool_abi: Abi = i_univ3_pool_abi();
 
                     // fetch pool address
                     let mut pools: Vec<PoolImmutables> = Vec::new();
@@ -195,10 +193,52 @@ impl PoolImmutables {
                     pools_file.write_all(&serialized_pools.as_bytes()).expect(&error);
                     return pools;
                 },
-                _ => panic!("Failed to open pools file"),
+                _ => panic!("Failed to open file: {}", &file_storing_pools),
             },
         };
         let pools: Vec<PoolImmutables> = serde_json::from_reader(file).expect("Failed to extract pool immutables from json");
         pools
+    }
+}
+
+//------------------------------------- PoolState
+
+pub struct PoolState {
+    sqrt_price_X96: U256,
+    tick: i32,
+    observation_index: u16,
+    observation_cardinality: u16,
+    observation_cardinality_next: u16,
+    fee_protocol: u8,
+    unlocked: bool,
+    token_0_decimals: u8,
+    token_1_decimals: u8,
+}
+
+impl PoolState {
+    pub fn new(
+        (
+            sqrt_price_X96,
+            tick,
+            observation_index,
+            observation_cardinality,
+            observation_cardinality_next,
+            fee_protocol,
+            unlocked,
+        ): (U256, i32, u16, u16, u16, u8, bool),
+        token_0_decimals: u8,
+        token_1_decimals: u8
+    ) -> Self {
+        PoolState {
+            sqrt_price_X96,
+            tick,
+            observation_index,
+            observation_cardinality,
+            observation_cardinality_next,
+            fee_protocol,
+            unlocked,
+            token_0_decimals,
+            token_1_decimals,
+        }
     }
 }

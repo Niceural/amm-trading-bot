@@ -1,31 +1,46 @@
-//------------------------------------- Pool
+const TWO: f64 = 2.;
+const TEN: f64 = 10.;
 
-pub struct Pool {
+//------------------------------------- Exchange
+
+use ethers::types::U256;
+
+pub struct Exchange {
     pub token_0: usize, 
     pub token_1: usize,
     pub pool_id: usize,
     pub log_price: f64,
-    pub liquidity: f32,
-    pub fee: u32,
 }
 
-impl Pool {
+impl Exchange {
     pub fn new(
         token_0: usize,
         token_1: usize,
         pool_id: usize,
-        log_price: f64,
-        liquidity: f32,
-        fee: u32
+        sqrt_price_X96: U256,
+        token_0_decimals: u8,
+        token_1_decimals: u8,
     ) -> Self {
         Self {
             token_0,
             token_1,
             pool_id,
-            log_price,
-            liquidity,
-            fee,
+            log_price: 
+                Exchange::sqrtPriceX96_to_log_price(sqrt_price_X96, token_0_decimals, token_1_decimals),
         }
+    }
+
+    pub fn log_price(&self) -> f64 {
+        self.log_price
+    }
+
+    fn sqrtPriceX96_to_log_price(
+        sqrt_price_X96: U256,
+        token_0_decimals: u8,
+        token_1_decimals: u8,
+    ) -> f64 {
+        let num = sqrt_price_X96.as_u128() as f64;
+        - (num.powi(2) / TWO.powi(192) * TEN.powi((token_0_decimals - token_1_decimals) as i32)).ln()
     }
 }
 
@@ -34,7 +49,7 @@ impl Pool {
 pub struct Arbitrage {
     pub pool_count: usize,
     pub token_count: usize,
-    pub adjacency_list: Vec<Pool>,
+    pub adjacency_list: Vec<Exchange>,
 }
 
 impl Arbitrage {
@@ -50,8 +65,12 @@ impl Arbitrage {
         self.adjacency_list.clear();
     }
 
-    pub fn add_pool(&mut self, pool: Pool) {
-        self.adjacency_list.push(pool);
+    pub fn add_exchange(&mut self, exchange: Exchange) {
+        self.adjacency_list.push(exchange);
+    }
+
+    pub fn execute(&self) {
+        self.bellman_ford();
     }
 
     fn bellman_ford(&self) -> Vec<f64> {
@@ -64,7 +83,7 @@ impl Arbitrage {
 
         // for each tokens, apply relaxation for all exchanges
         for _ in 0..(n-1) {
-            for &Pool { token_0, token_1, pool_id, log_price, .. } in &self.adjacency_list {
+            for &Exchange { token_0, token_1, pool_id, log_price} in &self.adjacency_list {
                 let new_dist = dists[token_0] + log_price;
                 if new_dist < dists[token_1] {
                     dists[token_1] = new_dist;
@@ -74,18 +93,18 @@ impl Arbitrage {
         }
 
         // if can still be relaxed => negative cycle
-        for &Pool { token_0, token_1, pool_id, log_price, liquidity, fee } in &self.adjacency_list {
+        for &Exchange { token_0, token_1, pool_id, log_price} in &self.adjacency_list {
             if dists[token_0] + log_price < dists[token_1] {
                 let mut cycle = Vec::new();
                 cycle.push((token_1, pool_id));
                 cycle.push((token_0, pool_id));
 
-                let mut current = token_0;
+                let mut current = prev[token_0].unwrap();
                 loop {
-                    match prev[current] {
-                        Some(node) => {
-                            cycle.push(node);
-                            // current = prev[node.0];
+                    match prev[current.0] {
+                        Some(c) => {
+                            cycle.push(c);
+                            current = prev[c.0];
                         },
                         None => break,
                     }
