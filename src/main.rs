@@ -1,11 +1,10 @@
 use ethers::{
     middleware::SignerMiddleware,
     providers::{Http, Provider},
-    signers::{LocalWallet, Wallet},
+    signers::{LocalWallet, },
     contract::Contract,
     abi::Abi,
     types::U256
-    // types::Address,
 };
 use std::convert::TryFrom;
 use dotenv::dotenv;
@@ -16,7 +15,6 @@ mod graph; use graph::*;
 mod univ3; use univ3::*;
 
 pub struct Bot {
-    chain_id: u32,
     provider: SignerMiddleware<Provider<Http>, LocalWallet>,
     tokens: Vec<Token>,
     pool_immutables: Vec<PoolImmutables>,
@@ -41,7 +39,6 @@ impl Bot {
         let pool_immutables = PoolImmutables::get_pool_immutables(chain_id, &provider).await;
 
         Self {
-            chain_id,
             provider,
             tokens,
             pool_immutables,
@@ -66,7 +63,7 @@ impl Bot {
             // fetch pool state, convert sqrtPriceX96 to token0Price/token1Price, add edge to graph
             for (contract, immutables) in pool_contracts.iter().zip(&self.pool_immutables) {
                 // fetch pool state
-                let (sqrt_price_x_96, tick, observation_index, observation_cardinality, observation_cardinality_next, fee_protocol, unlocked):
+                let (sqrt_price_x_96, _, _, _, _, _, _):
                     (U256, i32, u16, u16, u16, u8, bool) = contract
                     .method::<(), (U256, i32, u16, u16, u16, u8, bool)>("slot0", ())
                     .expect("`UniswapV3Pool.slot0()` not found in ABI. Incorrect ABI.")
@@ -96,7 +93,9 @@ impl Bot {
 
             // execute bellman ford
             let res = graph.bellman_ford_cycles(0);
-            println!("{:?}", res);
+            for el in res {
+                println!("{:?}", el);
+            }
 
             break;
         }
@@ -112,6 +111,6 @@ async fn main() {
     let secret_key = dotenv::var("SECRET_KEY_1").unwrap();
     println!("\n-------------------- Trading Bot Started (chain id {})", &chain_id);
 
-    let mut bot: Bot = Bot::new(chain_id, secret_key, provider_url).await;
+    let bot: Bot = Bot::new(chain_id, secret_key, provider_url).await;
     bot.execute().await;
 }

@@ -2,8 +2,9 @@ use std::{
     fs::read_to_string,
 };
 use ethers::{
-    types::{Address, U256, },
+    types::{Address, },
     abi::{Abi, },
+    prelude::U256,
 };
 
 const TWO: f64 = 2.;
@@ -33,9 +34,16 @@ pub fn sqrtPriceX86_to_log_price(
     decimals_0: u8,
     decimals_1: u8,
 ) -> (f64, f64) {
-    let mut p0p1 = sqrt.as_u128() as f64;
+    let mut p0p1: f64 = 0.;
+    if sqrt.bits() > 128 {
+        for b in 0..32 {
+            p0p1 += (sqrt.byte(b) as f64) * 255. * (b as f64);
+        }
+    } else {
+        p0p1 = sqrt.as_u128() as f64;
+    }
     p0p1 = p0p1.powi(2) / TWO.powi(192) * TEN.powi(decimals_0 as i32 - decimals_1 as i32);
-    (-p0p1.ln(), -(1./p0p1).ln())
+    return (-p0p1.ln(), -(1./p0p1).ln());
 }
 
 //------------------------------------- ABIs
