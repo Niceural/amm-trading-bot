@@ -4,7 +4,7 @@ use ethers::{
     signers::{LocalWallet, Wallet},
     contract::Contract,
     abi::Abi,
-    core::k256::ecdsa::SigningKey, types::U256
+    types::U256
     // types::Address,
 };
 use std::convert::TryFrom;
@@ -12,7 +12,7 @@ use dotenv::dotenv;
 use std::env;
 
 mod utils; use utils::*;
-mod arbitrage; use arbitrage::*;
+mod graph; use graph::*;
 mod univ3; use univ3::*;
 
 pub struct Bot {
@@ -20,8 +20,6 @@ pub struct Bot {
     provider: SignerMiddleware<Provider<Http>, LocalWallet>,
     tokens: Vec<Token>,
     pool_immutables: Vec<PoolImmutables>,
-    // pool_contracts: Vec<Contract<&SignerMiddleware<Provider<Provider>, Wallet<SigningKey>>>>,
-    arbitrage: Arbitrage,
 }
 
 impl Bot {
@@ -30,71 +28,78 @@ impl Bot {
         secret_key: String,
         provider_url: String,
     ) -> Self {
-        println!("Creating provider...");
-        let wallet: LocalWallet = secret_key.parse().expect("Invalid private key");
-        let provider_service = Provider::<Http>::try_from(provider_url).expect("Invalid provider url");
+        println!("\n-------------------- create bot instance");
+        println!("creating local wallet...");
+        let wallet: LocalWallet = secret_key.parse().expect("Invalid secret key. Please check it does not begin with '0x'.");
+        println!("creating provider...");
+        let provider_service = Provider::<Http>::try_from(provider_url).expect("Invalid provider url.");
         let provider: SignerMiddleware<Provider<Http>, LocalWallet> = SignerMiddleware::new(provider_service, wallet);
 
-        println!("Getting tokens and pool immutables...");
+        println!("getting tokens config...");
         let tokens = Token::get_tokens(chain_id);
+        println!("getting pool immutables config...");
         let pool_immutables = PoolImmutables::get_pool_immutables(chain_id, &provider).await;
-
-        // println!("Getting pool contracts...");
-        // let pool_contracts = Vec::with_capacity(pool_immutables.len());
-        // let pool_abi = i_univ3_pool_abi();
-        // let pool_abi: Abi = serde_json::from_str(&pool_abi).expect("Failed to parse string to Abi");
-        // for pool in &pool_immutables {
-        //     let temp = Contract::new(&pool.address, &pool_abi, &provider);
-        //     // pool_contracts.push(Contract::new(&pool.address, &pool_abi, &provider));
-        // }
-
-        println!("Getting arbitrage instance...");
-        let arbitrage = Arbitrage::new(pool_immutables.len(), tokens.len());
 
         Self {
             chain_id,
             provider,
             tokens,
             pool_immutables,
-            // pool_contracts,
-            arbitrage,
         }
     }
 
-    pub async fn run(&mut self) {
-        // clear arbitrage
-        self.arbitrage.clear();
+    pub async fn execute(&self) {
+        println!("\n--------------------- execute bot");
 
-        // get pool contracts
+        // create pool contracts
+        println!("creating pool contracts...");
         let mut pool_contracts = Vec::with_capacity(self.pool_immutables.len());
         let pool_abi: Abi = i_univ3_pool_abi();
         for pool in &self.pool_immutables {
             pool_contracts.push(Contract::new(pool.address, pool_abi.clone(), &self.provider));
         }
 
-        // fetch pool prices
-        for (contract, immutables) in pool_contracts.iter().zip(&self.pool_immutables) {
-            let (sqrt_price_X96, tick, observation_index, observation_cardinality, observation_cardinality_next, fee_protocol, unlocked):
-                (U256, i32, u16, u16, u16, u8, bool) = contract
-                .method::<(), (U256, i32, u16, u16, u16, u8, bool)>("slot0", ())
-                .expect("`UniswapV3Pool.slot0()` not found in ABI. Incorrect ABI.")
-                .call()
-                .await
-                .expect("`UniswapV3Pool.slot0()` asynchronous call failed.");
-            self.arbitrage.add_exchange(Exchange::new(
-                immutables.token_0_id,
-                immutables.token_1_id,
-                immutables.pool_id,
-                sqrt_price_X96,
-                self.tokens[immutables.token_0_id].decimals,
-                self.tokens[immutables.token_1_id].decimals,
-            ));
-        }
+        loop {
+            // create graph instance
+            let mut graph = Graph::new(self.tokens.len());
 
-        // execute arbitrage
-        // prepare arguments for on chain call
-        // call on chain contract
-        // store logs in log file
+            // fetch pool state, convert sqrtPriceX96 to token0Price/token1Price, add edge to graph
+            for (contract, immutables) in pool_contracts.iter().zip(&self.pool_immutables) {
+                // fetch pool state
+                let (sqrt_price_x_96, tick, observation_index, observation_cardinality, observation_cardinality_next, fee_protocol, unlocked):
+                    (U256, i32, u16, u16, u16, u8, bool) = contract
+                    .method::<(), (U256, i32, u16, u16, u16, u8, bool)>("slot0", ())
+                    .expect("`UniswapV3Pool.slot0()` not found in ABI. Incorrect ABI.")
+                    .call()
+                    .await
+                    .expect("`UniswapV3Pool.slot0()` asynchronous call failed.");
+                // convert sqrtPriceX96 to log price
+                let (p0, p1) = sqrtPriceX86_to_log_price(
+                    sqrt_price_x_96,
+                    self.tokens[immutables.token_0_id].decimals,
+                    self.tokens[immutables.token_1_id].decimals,
+                );
+                // add edge to graph
+                graph.add_edge(
+                    immutables.token_0_id, 
+                    immutables.token_1_id,
+                    p0,
+                    immutables.pool_id,
+                );
+                graph.add_edge(
+                    immutables.token_1_id, 
+                    immutables.token_0_id,
+                    p1,
+                    immutables.pool_id,
+                );
+            }
+
+            // execute bellman ford
+            let res = graph.bellman_ford_cycles(0);
+            println!("{:?}", res);
+
+            break;
+        }
     }
 }
 
@@ -105,11 +110,8 @@ async fn main() {
     dotenv().ok();
     let (chain_id, provider_url) = read_args(args);
     let secret_key = dotenv::var("SECRET_KEY_1").unwrap();
-    println!("\n========== Trading Bot Started (chain id {}) ==========", &chain_id);
+    println!("\n-------------------- Trading Bot Started (chain id {})", &chain_id);
 
-    // create bot
-    println!("Creating Bot instance...");
     let mut bot: Bot = Bot::new(chain_id, secret_key, provider_url).await;
-    bot.run().await;
-    // loop { bot.run().await; }
+    bot.execute().await;
 }

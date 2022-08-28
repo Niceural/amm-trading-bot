@@ -2,13 +2,12 @@ use std::{
     fs::read_to_string,
 };
 use ethers::{
-    types::{Address, },
+    types::{Address, U256, },
     abi::{Abi, },
 };
 
 const TWO: f64 = 2.;
-
-// const Q192: U256 = 2 >> 192 as U256;
+const TEN: f64 = 10.;
 
 /// Reads CLI arguments and returns the parameters.
 /// CLI argument is the network name.
@@ -16,21 +15,28 @@ const TWO: f64 = 2.;
 pub fn read_args(args: Vec<String>) -> (u32, String) {
     let network_name = &args[1];
     match network_name.as_str() {
-        "ethereum" => (1, dotenv::var("MAINNET_RPC_URL").expect("Ethereum provider not found in .env")),
+        "mainnet" => (1, dotenv::var("MAINNET_RPC_URL").expect("Mainnet provider not found in .env")),
         "goerli" => (5, dotenv::var("GOERLI_RPC_URL").expect("Goerli provider not found in .env")),
         "optimism" => (10, dotenv::var("OPTIMISM_RPC_URL").expect("Optimism provider not found in .env")),
         "polygon" => (137, dotenv::var("POLYGON_RPC_URL").expect("Polygon provider not found in .env")),
         "arbitrum" => (42161, dotenv::var("ARBITRUM_RPC_URL").expect("Arbitrum provider not found in .env")),
-        n => panic!("Invalid CLI argument {}. Must be one of 'ethereum', 'goerli', 'optimism', 'polygon', arbitrum'.", n),
+        n => panic!("Invalid CLI argument {}. Must be one of 'mainnet', 'goerli', 'optimism', 'polygon', arbitrum'.", n),
     }
 }
 
-// #[allow(non_snake_case)]
-// pub fn sqrtPriceX96_to_price(sqrt: U256) -> f64 {
-//     let num = sqrt.as_u128() as f64;
-//     let result = num.powi(2) / TWO.powi(192);
-//     result
-// }
+//------------------------------------- price conversion
+
+/// Return the price to pass to a `Graph` instance.
+#[allow(non_snake_case)]
+pub fn sqrtPriceX86_to_log_price(
+    sqrt: U256,
+    decimals_0: u8,
+    decimals_1: u8,
+) -> (f64, f64) {
+    let mut p0p1 = sqrt.as_u128() as f64;
+    p0p1 = p0p1.powi(2) / TWO.powi(192) * TEN.powi(decimals_0 as i32 - decimals_1 as i32);
+    (-p0p1.ln(), -(1./p0p1).ln())
+}
 
 //------------------------------------- ABIs
 
